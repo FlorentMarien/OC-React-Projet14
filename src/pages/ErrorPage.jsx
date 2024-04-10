@@ -1,7 +1,9 @@
 function ErrorPage() {
   return (
     <section id='body'>
-      <p>ErrorPage</p>
+      <div>
+        <p>ErrorPage</p>
+      </div>
     </section>
   );
 }

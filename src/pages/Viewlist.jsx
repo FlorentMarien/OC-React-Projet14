@@ -1,7 +1,9 @@
 function Viewlist() {
   return (
     <section>
-      <p>Test viewlist</p>
+      <div>
+        <p>Test viewlist</p>
+      </div>
     </section>
   );
 }
