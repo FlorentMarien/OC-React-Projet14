@@ -1,0 +1,6 @@
+main{
+    display: flex;
+}
+nav + section{
+    width: calc(100% - 200px);
+}
