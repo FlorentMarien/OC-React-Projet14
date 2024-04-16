@@ -5,7 +5,7 @@ form {
     align-items: center;
     min-height: calc(90vh - 20px);
 }
-form div{
+form > div{
     display: flex;
     flex-direction: column;
     padding: 15px;

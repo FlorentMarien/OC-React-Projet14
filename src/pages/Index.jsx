@@ -2,7 +2,11 @@ import './../styles/Index.css';
 import './../styles/Input.css';
 import InputText from "../composantes/InputText";
 import InputNumber from "../composantes/InputNumber";
+import InputDate from "../composantes/InputDate";
+import { useState } from 'react';
 function Index() {
+  const [startDateBirth, setStartDateBirth] = useState(new Date());
+  const [startDate, setStartDate] = useState(new Date());
   function addEmploye(e){
     e.preventDefault();
     alert("add");
@@ -15,8 +19,8 @@ function Index() {
           <div>
             <InputText data={{label: 'Firstname',name:''}} />
             <InputText data={{label: 'Lastname',name:''}} />
-            <InputText data={{label: 'Date of birth',name:''}} />
-            <InputText data={{label: 'Start Date',name:''}} />
+            <InputDate data={{label: 'Date of Birth',name:'',state:[startDateBirth, setStartDateBirth]}}/>
+            <InputDate data={{label: 'Start Date',name:'',state:[startDate, setStartDate]}}/>
           </div>
           <div className='formborder'>
             <InputText data={{label: 'Street',name:''}} />
