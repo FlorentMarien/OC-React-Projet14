@@ -3,6 +3,8 @@ import './../styles/Input.css';
 import InputText from "../composantes/InputText";
 import InputNumber from "../composantes/InputNumber";
 import InputDate from "../composantes/InputDate";
+import Dropdown from "../composantes/Dropdown";
+import {states,departments} from "../assets/data/data";
 import { useState } from 'react';
 function Index() {
   const [startDateBirth, setStartDateBirth] = useState(new Date());
@@ -26,10 +28,11 @@ function Index() {
             <InputText data={{label: 'Street',name:''}} />
             <InputText data={{label: 'City',name:''}} />
             <InputText data={{label: 'State',name:''}} />
+            <Dropdown data={{label: 'State',name:'',list:states}} />
             <InputNumber data={{label: 'Zip Code',name:''}} />
           </div>
           <div>
-            <InputText data={{label: 'Department',name:''}} />
+            <Dropdown data={{label: 'Department',name:'',list:departments}} />
             <input type='submit' value='Save' />
           </div>
         </form>
