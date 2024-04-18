@@ -6,16 +6,22 @@ import InputDate from "../composantes/InputDate";
 import Dropdown from "../composantes/Dropdown";
 import {states,departments} from "../assets/data/data";
 import { useState } from 'react';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 function Index() {
   const [startDateBirth, setStartDateBirth] = useState(new Date());
   const [startDate, setStartDate] = useState(new Date());
+  const notify = () => toast("Ajout réussi");
   function addEmploye(e){
     e.preventDefault();
-    alert("add");
+    notify();
   }
   return (
+    <>
     <section>
       <div>
+        <ToastContainer />
         <p>Create Employee</p>
         <form onSubmit={(e)=>{addEmploye(e)}}>
           <div>
@@ -38,6 +44,7 @@ function Index() {
         </form>
       </div>
     </section>
+    </>
   );
 }
 
