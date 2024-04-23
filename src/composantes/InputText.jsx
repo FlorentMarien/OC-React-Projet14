@@ -4,7 +4,7 @@ function InputText(data) {
     return (
         <>
         <label>{data.label}</label>
-        <input type='text' name={data.name} placeholder={data.name}/>
+        <input id={data.name} name={data.name} type='text'/>
         </>
     );
 }

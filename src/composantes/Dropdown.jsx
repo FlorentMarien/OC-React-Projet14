@@ -9,7 +9,7 @@ function Dropdown(data) {
     return (
         <>
             <label>{data.label}</label>
-            <DropDownList data={list} defaultValue={list[0]} />
+            <DropDownList id={data.name} name={data.name} data={list} defaultValue={list[0]} />
         </>
     );
 }

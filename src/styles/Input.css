@@ -2,7 +2,9 @@ input{
     width: 200px;
     box-sizing: border-box;
 }
-
 input[type='submit']{
     margin-top: 10px;
+}
+.k-dropdownlist{
+    z-index: 0;
 }
