@@ -7,18 +7,40 @@ import DropDown from "../composantes/Dropdown";
 import {states,departments} from "../assets/data/data";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { confirmAlert } from 'react-confirm-alert'; // Import
+import 'react-confirm-alert/src/react-confirm-alert.css';
 import { useState } from 'react';
 
 function Index() {
   const [State,SetState] = useState("");
   const [Department,SetDepartment] = useState("");
   const notify = () => toast("Ajout réussi");
-
+  const options = {
+    title: 'Ajout Réussi',
+    message: "L'utilisateur a été ajouté",
+    buttons: [
+      {
+        label: 'Close',
+        onClick: () => alert('Close')
+      }
+    ],
+    closeOnEscape: true,
+    closeOnClickOutside: true,
+    keyCodeForClose: [8, 32],
+    willUnmount: () => {},
+    afterClose: () => {},
+    onClickOutside: () => {},
+    onKeypress: () => {},
+    onKeypressEscape: () => {},
+    overlayClassName: "overlay-custom-class-name"
+  };
+  
   function addEmploye(e){
     e.preventDefault();
     let data = getForm();
     console.log(data);
-    notify();
+    //notify();
+    confirmAlert(options);
   }
 
   function getForm(){
