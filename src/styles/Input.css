@@ -5,6 +5,6 @@ input{
 input[type='submit']{
     margin-top: 10px;
 }
-.k-dropdownlist{
-    z-index: 0;
+.list-dropdown{
+    max-width: 200px;
 }

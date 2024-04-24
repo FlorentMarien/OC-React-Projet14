@@ -3,19 +3,24 @@ import './../styles/Input.css';
 import InputText from "../composantes/InputText";
 import InputNumber from "../composantes/InputNumber";
 import InputDate from "../composantes/InputDate";
-import Dropdown from "../composantes/Dropdown";
+import DropDown from "../composantes/Dropdown";
 import {states,departments} from "../assets/data/data";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useState } from 'react';
 
 function Index() {
+  const [State,SetState] = useState("");
+  const [Department,SetDepartment] = useState("");
   const notify = () => toast("Ajout réussi");
+
   function addEmploye(e){
     e.preventDefault();
     let data = getForm();
     console.log(data);
     notify();
   }
+
   function getForm(){
     let data = {
       firstname: document.getElementById("input-firstname").value,
@@ -24,12 +29,13 @@ function Index() {
       startdate: document.getElementById("input-startdate").value,
       street: document.getElementById("input-street").value,
       city: document.getElementById("input-city").value,
-      state: document.getElementById("input-state").textContent,
+      state: State,
       zipcode: document.getElementById("input-zipcode").value,
-      department: document.getElementById("input-department").textContent
+      department: Department
   };
   return data;
   }
+
   return (
     <>
     <section>
@@ -46,11 +52,11 @@ function Index() {
           <div className='formborder'>
             <InputText data={{label: 'Street',name:'input-street'}} />
             <InputText data={{label: 'City',name:'input-city'}} />
-            <Dropdown data={{label: 'State',name:'input-state',list:states}} />
+            <DropDown data={{label: 'State',name:'input-state',list:states,state:SetState}} />
             <InputNumber data={{label: 'Zip Code',name:'input-zipcode'}} />
           </div>
           <div>
-            <Dropdown data={{label: 'Department',name:'input-department',list:departments}} />
+            <DropDown data={{label: 'Department',name:'input-department',list:departments,state:SetDepartment}} />
             <input type='submit' value='Save' />
           </div>
         </form>
