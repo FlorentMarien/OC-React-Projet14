@@ -30,3 +30,6 @@ form > div {
 p{
     text-align: center;
 }
+.bg--white{
+    background-color: white;
+}
