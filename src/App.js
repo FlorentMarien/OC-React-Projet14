@@ -1,9 +1,10 @@
+import { Provider } from 'react-redux';
 import Router from './router';
 import './styles/App.css'
 function App() {
   return (
     <main>
-    <Router />
+        <Router />
     </main>
   );
 }

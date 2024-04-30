@@ -10,11 +10,13 @@ import 'react-toastify/dist/ReactToastify.css';
 import { confirmAlert } from 'react-confirm-alert'; // Import
 import 'react-confirm-alert/src/react-confirm-alert.css';
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
 
 function Index() {
+  const dispatch = useDispatch();
   const [State,SetState] = useState("");
   const [Department,SetDepartment] = useState("");
-  const notify = () => toast("Ajout réussi");
+  //const notify = () => toast("Ajout réussi");
   const options = {
     title: 'Ajout Réussi',
     message: "L'utilisateur a été ajouté",
@@ -38,22 +40,23 @@ function Index() {
   function addEmploye(e){
     e.preventDefault();
     let data = getForm();
-    console.log(data);
+    dispatch({type:"ADD_USER",listuser:data})
     //notify();
     confirmAlert(options);
+    
   }
 
   function getForm(){
     let data = {
       firstname: document.getElementById("input-firstname").value,
       lastname: document.getElementById("input-lastname").value,
-      datebirth: document.getElementById("input-datebirth").value,
+      dateofbirth: document.getElementById("input-datebirth").value,
       startdate: document.getElementById("input-startdate").value,
       street: document.getElementById("input-street").value,
       city: document.getElementById("input-city").value,
       state: State,
       zipcode: document.getElementById("input-zipcode").value,
-      department: Department
+      departments: Department.value === undefined ? Department : Department.value
   };
   return data;
   }
