@@ -11,11 +11,12 @@ import { confirmAlert } from 'react-confirm-alert'; // Import
 import 'react-confirm-alert/src/react-confirm-alert.css';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-
+import Modale from '../composantes/Modale';
 function Index() {
   const dispatch = useDispatch();
   const [State,SetState] = useState("");
   const [Department,SetDepartment] = useState("");
+  const [ModaleValue,setModaleValue] = useState({text:"Confirmation", open:0})
   //const notify = () => toast("Ajout réussi");
   const options = {
     title: 'Ajout Réussi',
@@ -42,8 +43,8 @@ function Index() {
     let data = getForm();
     dispatch({type:"ADD_USER",listuser:data})
     //notify();
-    confirmAlert(options);
-    
+    //confirmAlert(options);
+    setModaleValue({...ModaleValue,open:1,setstatemodale:setModaleValue});
   }
 
   function getForm(){
@@ -64,6 +65,7 @@ function Index() {
   return (
     <>
     <section>
+      <Modale data={ModaleValue}></Modale>
       <div>
         <ToastContainer />
         <p>Create Employee</p>
