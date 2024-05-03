@@ -14,8 +14,8 @@ import { useDispatch } from 'react-redux';
 import Modale from '../composantes/Modale';
 function Index() {
   const dispatch = useDispatch();
-  const [State,SetState] = useState("");
-  const [Department,SetDepartment] = useState("");
+  const [State,SetState] = useState({selectedIndex:0})
+  const [Department,SetDepartment] = useState({selectedIndex:0});
   const [ModaleValue,setModaleValue] = useState({text:"Confirmation", open:0})
   //const notify = () => toast("Ajout réussi");
   const options = {
@@ -41,6 +41,7 @@ function Index() {
   function addEmploye(e){
     e.preventDefault();
     let data = getForm();
+    console.log(data);
     dispatch({type:"ADD_USER",listuser:data})
     //notify();
     //confirmAlert(options);
@@ -55,13 +56,13 @@ function Index() {
       startdate: document.getElementById("input-startdate").value,
       street: document.getElementById("input-street").value,
       city: document.getElementById("input-city").value,
-      state: State,
+      state: State.label,
       zipcode: document.getElementById("input-zipcode").value,
-      departments: Department.value === undefined ? Department : Department.value
+      departments: Department.label
   };
   return data;
   }
-
+  
   return (
     <>
     <section>
@@ -79,11 +80,11 @@ function Index() {
           <div className='formborder'>
             <InputText data={{label: 'Street',name:'input-street'}} />
             <InputText data={{label: 'City',name:'input-city'}} />
-            <DropDown data={{label: 'State',name:'input-state',list:states,state:SetState}} />
+            <DropDown data={{label: 'State',name:'input-state',data:{list:states,selectedIndex:State.selectedIndex},state:SetState}} />
             <InputNumber data={{label: 'Zip Code',name:'input-zipcode'}} />
           </div>
           <div>
-            <DropDown data={{label: 'Department',name:'input-department',list:departments,state:SetDepartment}} />
+            <DropDown data={{label: 'Department',name:'input-department',data:{list:departments,selectedIndex:Department.selectedIndex},state:SetDepartment}} />
             <input type='submit' value='Save' />
           </div>
         </form>

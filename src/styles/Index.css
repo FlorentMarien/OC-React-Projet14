@@ -33,3 +33,12 @@ p{
 .bg--white{
     background-color: white;
 }
+form div{
+}
+label{
+    align-self: baseline;
+}
+select{
+    width: 200px;
+    box-sizing: border-box;
+}
