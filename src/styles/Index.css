@@ -39,6 +39,6 @@ label{
     align-self: baseline;
 }
 select{
-    width: 200px;
+    width: auto;
     box-sizing: border-box;
 }
