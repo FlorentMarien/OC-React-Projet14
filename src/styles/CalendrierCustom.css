@@ -32,8 +32,11 @@ td.month{
 .calendrier-before-month,.calendrier-after-month{
     color: darkgray;
 }
+.-weekday{
+    background-color: darkslategray;
+}
 .date-active{
-    background-color: rgba(0, 255, 255, 0.7);
+    background-color: firebrick;
 }
 
 .calendrier thead,.calendrier tr{
@@ -49,3 +52,4 @@ td.month{
 .calendrier thead td img{
     width: 50px;
 }
+

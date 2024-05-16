@@ -14,8 +14,8 @@ import { useDispatch } from 'react-redux';
 import Modale from '../composantes/Modale';
 function Index() {
   const dispatch = useDispatch();
-  const [State,SetState] = useState({selectedIndex:0})
-  const [Department,SetDepartment] = useState({selectedIndex:0});
+  const [State,SetState] = useState({label:states[0].name,value:states[0].name,selectedIndex:0})
+  const [Department,SetDepartment] = useState({label:departments[0].name,value:departments[0].name,selectedIndex:0});
   const [ModaleValue,setModaleValue] = useState({text:"Confirmation", open:0})
   //const notify = () => toast("Ajout réussi");
   const options = {
@@ -74,8 +74,8 @@ function Index() {
           <div>
             <InputText data={{label: 'Firstname',name:'input-firstname'}} />
             <InputText data={{label: 'Lastname',name:'input-lastname'}} />
-            <InputDate data={{label: 'Date of Birth',name:'input-datebirth'}}/>
-            <InputDate data={{label: 'Start Date',name:'input-startdate'}}/>
+            <InputDate data={{label: 'Date of Birth',name:'input-datebirth'}} rangeYear={[1940,new Date().getFullYear()]}/>
+            <InputDate data={{label: 'Start Date',name:'input-startdate'}} rangeYear={[2000,new Date().getFullYear()+5]} rangeWeekday={[6,0]}/>
           </div>
           <div className='formborder'>
             <InputText data={{label: 'Street',name:'input-street'}} />

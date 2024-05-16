@@ -4,36 +4,75 @@ import  DropdownCustom from './DropdownCustom';
 import moment from 'moment';
 import arrowleft from './../assets/icon/arrow-left-svgrepo-com.svg';
 import arrowright from './../assets/icon/arrow-right-svgrepo-com.svg';
+
+/*
+(props)
+    props={
+        id: String //id of calendrier
+        selected : date() //Date selected input & calendrier
+        formatCalendrier: String // "fr" "us" "test"
+        rangeYear: [Number yearMin,Number rangeyearMax, /*Number yearindex* /]
+        linetable: Number // Line of table min 5 max 6 / default:6;
+        rangeWeekday: Array //stuck element who is in array [0,1,2,3,4,5] For display all day except Sunday
+        //yearindex
+        onChange: setstate //Return date selected
+    }
+*/
+
 function CalendrierCustom(props) {
     const [Open,setOpen] = useState(0);
     const [DateCal,setDateCal] = useState(props.selected);
-    const [ViewDate,setViewDate] = useState({month:DateCal.getMonth(),year:DateCal.getFullYear(),yearindex:30});
+    const [ViewDate,setViewDate] = useState({month:DateCal.getMonth(),year:DateCal.getFullYear(),yearindex:props.rangeYear === undefined ? 0 : props.rangeYear[1] - new Date().getFullYear()});
     const arrayData = ["Janvier","Fevrier","Mars","Avril","Mai","Juin",'Juillet',"Aout","Septembre","Octobre","Novembre","Decembre"];
     let listData = arrayData.map((e)=>{
         return { label:e,  value:e }
     });
     let listYear = [];
-    const rangeYearmin = 1970;
-    const rangeYearmax = new Date().getFullYear()+30;
-    const rangeYear= [rangeYearmin, rangeYearmax];
+    const objectformatCalendrier = {
+        us: [["D","L","M","M","J","V","S"],0],
+        fr: [["L","M","M","J","V","S","D"],1],
+        TEST: [["J","V","S","D","L","M","M"],4],
+    }
+    const rangeWeekday = props.rangeWeekday === undefined ? [0,6] : props.rangeWeekday;
+    const formatCalendrier = props.formatCalendrier === undefined ? "fr" : props.formatCalendrier;
+    const linetable = props.linetable === undefined ? 6 : props.linetable;
+    const rangeYearMin = props.rangeYear === undefined ? 1940 : props.rangeYear[0];
+    const rangeYearMax = props.rangeYear === undefined ? new Date().getFullYear()+30 : props.rangeYear[1];
+    const rangeYear= [rangeYearMin, rangeYearMax];
     let rangeYearX = rangeYear[1]-rangeYear[0];
+
     for(rangeYearX;rangeYearX>=0;rangeYearX--){
         listYear.push({label:rangeYear[0]+rangeYearX,value:rangeYear[0]+rangeYearX});
     }
-    
+
+    let header;
+    for(let x=0;x<=6;x++){
+        header = (
+            <>
+            {header}
+            <td>
+                <p>{objectformatCalendrier[formatCalendrier][0][x]}</p>
+            </td>
+            </>
+        )
+    }
+    header = (
+        <thead>
+            {header}
+        </thead>
+    );
+
     useEffect(() => {
         setDateCal(props.selected);
     },[props.onChange]);
 
     function getTab(){
         const date = new Date(ViewDate.year, ViewDate.month, 1);
-        const firstDayOfMonth = date.getDay() === 0 ? 6 : date.getDay() - 1;
+        const firstDayOfMonth = date.getDay();
         const lastDayOfMonth = parseInt(moment(new Date(ViewDate.year, ViewDate.month+1, 0)).format("DD"));
         const afterMonth = new Date(ViewDate.year, ViewDate.month+1, 1);
         const beforeMonth = new Date(ViewDate.year, ViewDate.month, 0);
         const nbrdayBeforeMonth = parseInt(moment(beforeMonth).format("DD"));
-        
-        
         if (typeof window !== 'undefined' && Open === 1) {
             window.addEventListener('click', function (e) {
               if(e.target.closest(".full-container-"+props.id) === null) {
@@ -43,23 +82,50 @@ function CalendrierCustom(props) {
         }
 
         function clickhandle(date){
-            if(props.onChange !== undefined) props.onChange(date);
-            else setDateCal(date);
+            if(rangeWeekday.includes(date.getDay())) alert("1234");
+            else{
+                if(props.onChange !== undefined) props.onChange(date);
+                else setDateCal(date);
+            }
         }
 
+        let endbefore = false;
+        let startafter = false;
+        let datedebut = objectformatCalendrier[formatCalendrier][1];
+        
+        let firstDayOfMonthFiltred = firstDayOfMonth - datedebut;
+        if(firstDayOfMonthFiltred < 0 ) firstDayOfMonthFiltred = 6;
+        
+        let minBeforeMonth = nbrdayBeforeMonth-dayBetween(datedebut,date.getDay());
+        function dayBetween(dayoftheweek1,dayoftheweek2){
+            let res = (dayoftheweek2+7)-dayoftheweek1;
+            if(res>=7) res -= 7;
+            return res;
+        }
         let tab;
-        let z = 1;
+        
+        let z = minBeforeMonth+1;
         let x = 1;
         let y = 1;
-        let limittable = ((lastDayOfMonth + firstDayOfMonth) > 35) ? 6 : 5 ;
-        for(y=1;y <= limittable;y++){
+        for(y=1;y <= linetable;y++){
             let cel;
-            for(x=1;x<=7;x++){
+            for(x=0; x<=6 ;x++){
                 let data = "";
-                if(z > firstDayOfMonth) data = {content:z-firstDayOfMonth,class:"calendrier-actual-month",date:new Date(ViewDate.year, ViewDate.month, z-firstDayOfMonth)};
-                if(z <= firstDayOfMonth) data = {content:z+nbrdayBeforeMonth-firstDayOfMonth,class:"calendrier-before-month",date:new Date(beforeMonth.getFullYear(), beforeMonth.getMonth(), z+nbrdayBeforeMonth-firstDayOfMonth)};
-                if(z > (lastDayOfMonth+firstDayOfMonth)) data = {content:z-(lastDayOfMonth+firstDayOfMonth),class:"calendrier-after-month",date:new Date(afterMonth.getFullYear(), afterMonth.getMonth(), z-(lastDayOfMonth+firstDayOfMonth))};
                 
+                if( z > nbrdayBeforeMonth  && endbefore === false) { endbefore=true;z=1;};
+                if( z > lastDayOfMonth && endbefore === true && startafter === false) { startafter = true;z=1;};
+                
+                if( endbefore === false ){
+                        data = { content:z,class:"calendrier-before-month",date:new Date(beforeMonth.getFullYear(), beforeMonth.getMonth(), z)};
+                }else if(endbefore === true && startafter === false){
+                    data = {content:z,class:"calendrier-actual-month",date:new Date(ViewDate.year, ViewDate.month, z)};
+                }else{
+                    
+                    data = {content:z,class:"calendrier-after-month",date:new Date(afterMonth.getFullYear(), afterMonth.getMonth(), z)};
+                }
+                if(rangeWeekday.includes(data.date.getDay())) data.class += " -weekday";
+                z++;
+               
                 if(data.date.toDateString() === DateCal.toDateString()) data.class += " date-active";
                 cel = (
                     <>
@@ -67,7 +133,6 @@ function CalendrierCustom(props) {
                         <td className={data.class} onClick={(e) => clickhandle(data.date) }>{data.content}</td>
                     </>
                 );
-                z++;
             }
             tab = (
                 <>
@@ -83,7 +148,8 @@ function CalendrierCustom(props) {
         <div id={props.id} className='calendrier'>
             <thead>
                 <td onClick={(e)=>{
-                    if ( ViewDate.year === rangeYearmin && ViewDate.month === 0 ){
+                
+                    if ( ViewDate.year === rangeYearMin && ViewDate.month === 0 ){
                     } else {
                     setViewDate(ViewDate.month === 0 ? {month:11,year:ViewDate.year-1,yearindex:ViewDate.yearindex+1} :  {month:ViewDate.month-1,year:ViewDate.year,yearindex:ViewDate.yearindex})
                     }
@@ -96,10 +162,10 @@ function CalendrierCustom(props) {
                 <DropdownCustom data={{label: 'Month',name:'calendrier-month',list:listData,selectedIndex:ViewDate.month}} onChange={(e) => { setViewDate({month:e.selectedIndex,year:ViewDate.year, yearindex:ViewDate.yearindex})} }/>
                 </td>
                 <td>
-                <DropdownCustom data={{label: 'Year',name:'calendrier-year',list:listYear,selectedIndex:ViewDate.yearindex}} onChange={(e) => { setViewDate({month:ViewDate.month,year:parseInt(e.value),yearindex:rangeYearmax - parseInt(e.value)})} }/>
+                <DropdownCustom data={{label: 'Year',name:'calendrier-year',list:listYear,selectedIndex:ViewDate.yearindex}} onChange={(e) => { setViewDate({month:ViewDate.month,year:parseInt(e.value),yearindex:rangeYearMax - parseInt(e.value)})} }/>
                 </td>
                 <td onClick={(e)=>{
-                    if ( ViewDate.year === rangeYearmax && ViewDate.month === 11 ){
+                    if ( ViewDate.year === rangeYearMax && ViewDate.month === 11 ){
                     } else {
                         setViewDate(ViewDate.month === 11 ? {month:0,year:ViewDate.year+1,yearindex:ViewDate.yearindex-1} :  {month:ViewDate.month+1,year:ViewDate.year,yearindex:ViewDate.yearindex})
                     }
@@ -108,15 +174,7 @@ function CalendrierCustom(props) {
                     <img src={arrowright}/>
                 </td>
             </thead>
-            <thead>
-                <td><p>L</p></td>
-                <td><p>M</p></td>
-                <td><p>M</p></td>
-                <td><p>J</p></td>
-                <td><p>V</p></td>
-                <td><p>S</p></td>
-                <td><p>D</p></td>
-            </thead>
+            {header}
             {tab}
         </div>
         );
