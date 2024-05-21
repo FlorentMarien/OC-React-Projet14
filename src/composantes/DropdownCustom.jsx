@@ -6,7 +6,6 @@ function DropDownCustom( props ) {
     let [Open,SetOpen] = useState(0);
     let [DropValue,SetDropValue] = useState({label:data.list[data.selectedIndex].label,value:data.list[data.selectedIndex].value,selectedIndex:data.selectedIndex});
     useEffect(() => {
-        console.log(data);
         SetDropValue({label:data.list[data.selectedIndex].label,value:data.list[data.selectedIndex].value,selectedIndex:data.selectedIndex});
     },[props.onChange])
 

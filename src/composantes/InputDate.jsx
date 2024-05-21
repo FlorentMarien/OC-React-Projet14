@@ -6,13 +6,12 @@ import { useState } from 'react';
 function InputDate(props) {
     
     const [DateCal,setDateCal] = useState(new Date());
-    console.log(DateCal)
     let data = props.data;
     return (
         <>
         <label>{data.label}</label>
-        <DatePicker id={data.name} name={data.name} selected={DateCal} onChange={(date) => setDateCal(date)} />
-        <CalendrierCustom id={data.name+"-custom"} selected={DateCal} onChange={(date) => {setDateCal(date)}} rangeYear={props.rangeYear} rangeWeekday={props.rangeWeekday}/>
+        {/*<DatePicker id={data.name} name={data.name} selected={DateCal} onChange={(date) => setDateCal(date)} />*/}
+        <CalendrierCustom id={data.name+"-custom"} selected={DateCal} onChange={(date) => {setDateCal(date)}} rangeYear={props.rangeYear} rangeWeekday={props.rangeWeekday} formatCalendrier={props.formatCalendrier}/>
         </>
     );
 }

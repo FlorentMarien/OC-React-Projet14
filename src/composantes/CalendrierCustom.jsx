@@ -1,22 +1,23 @@
 import './../styles/CalendrierCustom.css';
 import { useState,useEffect } from 'react';
 import  DropdownCustom from './DropdownCustom';
-import moment from 'moment';
-import arrowleft from './../assets/icon/arrow-left-svgrepo-com.svg';
-import arrowright from './../assets/icon/arrow-right-svgrepo-com.svg';
+import moment, { weekdays } from 'moment';
+import arrowleft from './../assets/icon/arrow-left-5-svgrepo-com.svg';
+import arrowright from './../assets/icon/right-arrow-svgrepo-com(1).svg';
 
 /*
 (props)
     props={
         id: String //id of calendrier
         selected : date() //Date selected input & calendrier
-        formatCalendrier: String // "fr" "us" "test"
+        formatCalendrier: String // "us-US" "fr-FR"
         rangeYear: [Number yearMin,Number rangeyearMax, /*Number yearindex* /]
         linetable: Number // Line of table min 5 max 6 / default:6;
-        rangeWeekday: Array //stuck element who is in array [0,1,2,3,4,5] For display all day except Sunday
+        rangeWeekday: Array //stuck element who is in array [0,1,2,3,4,5]
         //yearindex
         onChange: setstate //Return date selected
     }
+    objectformatCalendrier { formatCalendrier: [[Schemas semaine],[Décalage], [Language for date]] }
 */
 
 function CalendrierCustom(props) {
@@ -29,12 +30,13 @@ function CalendrierCustom(props) {
     });
     let listYear = [];
     const objectformatCalendrier = {
-        us: [["D","L","M","M","J","V","S"],0],
-        fr: [["L","M","M","J","V","S","D"],1],
-        TEST: [["J","V","S","D","L","M","M"],4],
+        'en-US': [["D","L","M","M","J","V","S"],0,'en-US'],
+        'fr-FR': [["L","M","M","J","V","S","D"],1,'fr-FR'],
+        'TEST': [["J","V","S","D","L","M","M"],4,'fr-FR'],
     }
+    const id = props.id !== undefined && props.id;
     const rangeWeekday = props.rangeWeekday === undefined ? [0,6] : props.rangeWeekday;
-    const formatCalendrier = props.formatCalendrier === undefined ? "fr" : props.formatCalendrier;
+    const formatCalendrier = (props.formatCalendrier === undefined || objectformatCalendrier[props.formatCalendrier] === undefined) ? "en-US" : props.formatCalendrier;
     const linetable = props.linetable === undefined ? 6 : props.linetable;
     const rangeYearMin = props.rangeYear === undefined ? 1940 : props.rangeYear[0];
     const rangeYearMax = props.rangeYear === undefined ? new Date().getFullYear()+30 : props.rangeYear[1];
@@ -47,17 +49,19 @@ function CalendrierCustom(props) {
 
     let header;
     for(let x=0;x<=6;x++){
+        let indexDay = x+objectformatCalendrier[formatCalendrier][1]-7;
+        if(indexDay < 0) indexDay += 7;
         header = (
             <>
             {header}
-            <td>
+            <td className={rangeWeekday.includes(indexDay) && "-weekday"}>
                 <p>{objectformatCalendrier[formatCalendrier][0][x]}</p>
             </td>
             </>
         )
     }
     header = (
-        <thead>
+        <thead className='calendrier-semaine'>
             {header}
         </thead>
     );
@@ -82,7 +86,7 @@ function CalendrierCustom(props) {
         }
 
         function clickhandle(date){
-            if(rangeWeekday.includes(date.getDay())) alert("1234");
+            if(rangeWeekday.includes(date.getDay())) alert("Weekday");
             else{
                 if(props.onChange !== undefined) props.onChange(date);
                 else setDateCal(date);
@@ -145,7 +149,11 @@ function CalendrierCustom(props) {
         
         }
        tab = (
-        <div id={props.id} className='calendrier'>
+        <div id={id} className='calendrier'>
+            <thead className='calendrier-activedate'>
+            <p>{DateCal.getFullYear()}</p>
+            <p>{DateCal.toLocaleDateString(objectformatCalendrier[formatCalendrier][2],{weekday:'long',day: 'numeric',month: 'long'})}</p>
+            </thead>
             <thead>
                 <td onClick={(e)=>{
                 
@@ -157,11 +165,8 @@ function CalendrierCustom(props) {
                     >
                     <img src={arrowleft}/>
                 </td>
-                <td className='month'>
-                
+                <td className='calendrier-inputMonthYear'>
                 <DropdownCustom data={{label: 'Month',name:'calendrier-month',list:listData,selectedIndex:ViewDate.month}} onChange={(e) => { setViewDate({month:e.selectedIndex,year:ViewDate.year, yearindex:ViewDate.yearindex})} }/>
-                </td>
-                <td>
                 <DropdownCustom data={{label: 'Year',name:'calendrier-year',list:listYear,selectedIndex:ViewDate.yearindex}} onChange={(e) => { setViewDate({month:ViewDate.month,year:parseInt(e.value),yearindex:rangeYearMax - parseInt(e.value)})} }/>
                 </td>
                 <td onClick={(e)=>{
@@ -182,8 +187,8 @@ function CalendrierCustom(props) {
     }
     return (
         <>
-            <div className={'full-container-'+props.id}>
-                <input type="text" value={DateCal.toDateString()} onClick={(e)=> Open === 1 ? setOpen(0) : setOpen(1)}/>
+            <div className={'full-container-'+id}>
+                <input type="text" value={DateCal.toLocaleDateString(objectformatCalendrier[formatCalendrier][2],{weekday:'long',day: 'numeric',month: 'long',year:'numeric'})} onClick={(e)=> Open === 1 ? setOpen(0) : setOpen(1)}/>
                 <div className="calendrier-container">
                 {
                     Open === 1 &&

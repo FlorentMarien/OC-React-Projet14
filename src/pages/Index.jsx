@@ -41,7 +41,6 @@ function Index() {
   function addEmploye(e){
     e.preventDefault();
     let data = getForm();
-    console.log(data);
     dispatch({type:"ADD_USER",listuser:data})
     //notify();
     //confirmAlert(options);
@@ -74,8 +73,8 @@ function Index() {
           <div>
             <InputText data={{label: 'Firstname',name:'input-firstname'}} />
             <InputText data={{label: 'Lastname',name:'input-lastname'}} />
-            <InputDate data={{label: 'Date of Birth',name:'input-datebirth'}} rangeYear={[1940,new Date().getFullYear()]}/>
-            <InputDate data={{label: 'Start Date',name:'input-startdate'}} rangeYear={[2000,new Date().getFullYear()+5]} rangeWeekday={[6,0]}/>
+            <InputDate data={{label: 'Date of Birth',name:'input-datebirth'}} rangeYear={[1940,new Date().getFullYear()]} formatCalendrier={"en-US"}/>
+            <InputDate data={{label: 'Start Date',name:'input-startdate'}} rangeYear={[2000,new Date().getFullYear()+5]} rangeWeekday={[6,0]} formatCalendrier={"fr-FR"}/>
           </div>
           <div className='formborder'>
             <InputText data={{label: 'Street',name:'input-street'}} />
