@@ -149,7 +149,7 @@ function CalendrierCustom(props) {
         
         }
        tab = (
-        <div id={id} className='calendrier'>
+        <div id={id+"-custom"} className='calendrier'>
             <thead className='calendrier-activedate'>
             <p>{DateCal.getFullYear()}</p>
             <p>{DateCal.toLocaleDateString(objectformatCalendrier[formatCalendrier][2],{weekday:'long',day: 'numeric',month: 'long'})}</p>
@@ -188,7 +188,7 @@ function CalendrierCustom(props) {
     return (
         <>
             <div className={'full-container-'+id}>
-                <input type="text" value={DateCal.toLocaleDateString(objectformatCalendrier[formatCalendrier][2],{weekday:'long',day: 'numeric',month: 'long',year:'numeric'})} onClick={(e)=> Open === 1 ? setOpen(0) : setOpen(1)}/>
+                <input id={id} type="text" value={DateCal.toLocaleDateString(objectformatCalendrier[formatCalendrier][2],{weekday:'long',day: 'numeric',month: 'long',year:'numeric'})} onClick={(e)=> Open === 1 ? setOpen(0) : setOpen(1)}/>
                 <div className="calendrier-container">
                 {
                     Open === 1 &&

@@ -4,16 +4,14 @@ import CalendrierCustom from './CalendrierCustom'
 import 'react-datepicker/src/stylesheets/datepicker.scss'
 import { useState } from 'react';
 function InputDate(props) {
-    
-    const [DateCal,setDateCal] = useState(new Date());
     let data = props.data;
     return (
         <>
         <label>{data.label}</label>
-        {/*<DatePicker id={data.name} name={data.name} selected={DateCal} onChange={(date) => setDateCal(date)} />*/}
-        <CalendrierCustom id={data.name+"-custom"} selected={DateCal} onChange={(date) => {setDateCal(date)}} rangeYear={props.rangeYear} rangeWeekday={props.rangeWeekday} formatCalendrier={props.formatCalendrier}/>
+        {/*<DatePicker id={data.name} name={data.name} selected={props.state[0]} onChange={(date) => props.state[1](date)} />*/}
+        <CalendrierCustom id={data.name} selected={props.state[0]} onChange={(date) => { props.state[1](date);}} rangeYear={props.rangeYear} rangeWeekday={props.rangeWeekday} formatCalendrier={props.formatCalendrier}/>
         </>
     );
 }
 
-export default InputDate;
+export default InputDate; 
