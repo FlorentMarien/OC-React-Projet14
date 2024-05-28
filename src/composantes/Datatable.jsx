@@ -13,12 +13,12 @@ function Datatable(props) {
     let data = props.data;
     return (
         <>
-         <DatatableCustom id={props.id} data={data}>
-            <ColumnCustom field="firstname" sortable></ColumnCustom>
+         <DatatableCustom id={props.id} data={data} searchGlobal>
+            <ColumnCustom field="firstname" sortable search></ColumnCustom>
             <ColumnCustom field="lastname" ></ColumnCustom>
             <ColumnCustom field="city"></ColumnCustom>
             <ColumnCustom field="street"></ColumnCustom>
-            <ColumnCustom field="dateofbirth" dataType={"date"} sortable></ColumnCustom>
+            <ColumnCustom field="dateofbirth" dataType={"date"} sortable search></ColumnCustom>
             <ColumnCustom field="departments"></ColumnCustom>
             <ColumnCustom field="startdate" dataType={"date"} sortable></ColumnCustom>
             <ColumnCustom field="state"></ColumnCustom>

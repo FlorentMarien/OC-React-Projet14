@@ -1,3 +1,30 @@
 .datatable tr td, .datatable thead td{
     color:white;
 }
+.msg-nocontent{
+    width: max-content;
+    text-align: center;
+}
+td input{
+    width: 50px;
+}
+.table-div{
+    width: 100%;
+}
+.table-thead,.table-tr{
+    display: flex;
+    justify-content: space-between;
+}
+.table-td div img{ 
+    width: 30px;
+    height: 30px;
+}
+.table-td{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-basis: 100%;
+}
+.table-td input{
+    width: 100%;
+}
