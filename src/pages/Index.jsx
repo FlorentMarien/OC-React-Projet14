@@ -54,14 +54,15 @@ function Index() {
     let data = {
       firstname: document.getElementById("input-firstname").value,
       lastname: document.getElementById("input-lastname").value,
-      dateofbirth: StateDateOfBirth,
-      startdate: StateStartDate,
+      dateofbirth: StateDateOfBirth.toLocaleDateString("fr-FR"),
+      startdate: StateStartDate.toLocaleDateString("fr-FR"),
       street: document.getElementById("input-street").value,
       city: document.getElementById("input-city").value,
       state: State.label,
       zipcode: document.getElementById("input-zipcode").value,
       departments: Department.label
   };
+  console.log(data);
   return data;
   }
   

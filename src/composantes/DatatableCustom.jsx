@@ -3,8 +3,6 @@ import './../styles/DatatableCustom.css';
 import { useState } from 'react';
 import ArrowUp from './../assets/icon/sort-up-svgrepo-com.svg';
 import ArrowDown from './../assets/icon/sort-down-svgrepo-com.svg';
-import { departments } from '../assets/data/data';
-import { invalid } from 'moment';
 
 export function ColumnCustom(props) {
     return(
@@ -14,7 +12,7 @@ export function ColumnCustom(props) {
 function CelCustom(props){
     let view;
     if(props.dataType === "string" ) view = (<div className='table-td'>{props.value}</div>);
-    if(props.dataType === "date" ) view = (<div className='table-td'>{new Date(props.value).toLocaleDateString("fr-Fr")}</div>);
+    //if(props.dataType === "date" ) view = (<div className='table-td'>{new Date(props.value).toLocaleDateString("fr-Fr")}</div>);
     return (
 
         <div className='table-td'>{ view }</div>
@@ -60,53 +58,61 @@ function HeaderCustom(props, state){
 export function DatatableCustom(props) {
     let [listUser,setlistUser] = useState(props.data);
     let [Search,SetSearch] = useState({});
+    let [StatePaginator,SetStatePaginator] = useState({viewPage: 0,arrayPaginator: props.paginator === undefined ? [10] : props.paginator,focusPaginator: props.paginator === undefined ? 10 : props.paginator[0]});
     
     let returnlistUser = listUser.map(dataelement => {
-        let elementSearch = 0;
-        if(Search["searchGlobal"] !== undefined)
-        {
-            let incr = 0;
-            Object.keys(dataelement).forEach((e)=>{ 
-                if(typeof dataelement[e] === 'string') if(dataelement[e].includes(Search["searchGlobal"])) incr +=1 ;
-                if(typeof dataelement[e] === 'object') {
-                    if(dataelement[e].toLocaleDateString("fr-Fr").includes(Search["searchGlobal"])) incr +=1 ;
+            let elementSearch = 0;
+            if(Search["searchGlobal"] !== undefined)
+            {
+                let incr = 0;
+                Object.keys(dataelement).forEach((e)=>{ 
+                    if(typeof dataelement[e] === 'string') if(dataelement[e].includes(Search["searchGlobal"])) incr +=1 ;
+                    if(typeof dataelement[e] === 'object') {
+                        if(dataelement[e].toLocaleDateString("fr-Fr").includes(Search["searchGlobal"])) incr +=1 ;
+                    }
+                });
+                if(incr > 0) elementSearch += 1;
+            }
+
+            Object.keys(Search).forEach((e)=>{ 
+                if(e !== 'searchGlobal'){
+                    if(typeof dataelement[e] === 'string') if(dataelement[e].includes(Search[e])) elementSearch +=1; ;
+                    if(typeof dataelement[e] === 'object') {
+                        if(dataelement[e].toLocaleDateString("fr-Fr").includes(Search["searchGlobal"])) elementSearch +=1 ;
+                    }
+                    
                 }
             });
-            if(incr > 0) elementSearch += 1;
-        }
-
-        Object.keys(Search).forEach((e)=>{ 
-            if(e !== 'searchGlobal'){
-                if(typeof dataelement[e] === 'string') if(dataelement[e].includes(Search[e])) elementSearch +=1; ;
-                if(typeof dataelement[e] === 'object') {
-                    if(dataelement[e].toLocaleDateString("fr-Fr").includes(Search["searchGlobal"])) elementSearch +=1 ;
-                }
-                
+            if(Object.values(Search).length === 0 || Object.values(Search).length <= elementSearch){
+                let line= (
+                    <>
+                        {props.children.map( x => { 
+                            return CelCustom({ columName:x.props.field,value:dataelement[x.props.field], dataType:x.props.dataType === undefined ? "string" : x.props.dataType})
+                            })
+                        }
+                    </>
+                );
+                if(line.props.children !== undefined ) line = (<div className="table-tr">{line}</div>);
+                return line;
             }
-        });
-        if(Object.values(Search).length === 0 || Object.values(Search).length <= elementSearch){
-            let line= (
-                <>
-                    {props.children.map( x => { 
-                        return CelCustom({ columName:x.props.field,value:dataelement[x.props.field], dataType:x.props.dataType === undefined ? "string" : x.props.dataType})
-                        })
-                    }
-                </>
-            );
-            if(line.props.children !== undefined ) line = (<div className="table-tr">{line}</div>);
-            return line;
-        }
     });
     let returntampon = [];
     returnlistUser.forEach((e)=>{
         if(e !== undefined) returntampon.push(e);
     })
     returnlistUser = returntampon;
+    let iteration = 0;
     let datatable = (
         <>
         <div id={props.id !== undefined && props.id} className='datatable'> 
             {HeaderCustom(props, {listUser:[listUser,setlistUser],Search:[Search,SetSearch]})}
-            {returnlistUser}
+            {returnlistUser.map((e)=>{ if((iteration < (StatePaginator.focusPaginator*(StatePaginator.viewPage+1))) && (iteration >= (StatePaginator.focusPaginator*StatePaginator.viewPage))){ 
+                iteration++;
+                return e;
+                } else{ iteration++; }
+            
+                })}
+            {FooterCustom(props, [StatePaginator,SetStatePaginator])}
         </div>
         {returnlistUser.length === 0 && <p className='msg-nocontent'>Aucun élément ne correspond à votre recherche</p>}
         </>
@@ -117,83 +123,42 @@ export function DatatableCustom(props) {
         </>
     );
 }
-function Filter(text1,text2,dataType,order){
-    let verif = 1;
-    if(dataType === "string"){
-        let string1 = new String(text1);
-        let string2 = new String(text2);
-        if(string1 !== string2){
-            if(string1.length === 0) {
-                verif=2;
-                if(string1.length === 0 && string2.length === 0) verif=0;
-            }
-            else{
-                if(string2.length === 0) verif=0;
-                else{
-                    for(let x=0;x < string1.length;x++){
-                        if(string1.charCodeAt(x) < string2.charCodeAt(x)) verif=2;
-                    }
+function FooterCustom(props, statepaginator){
+    let nbrpage = Math.ceil(props.data.length / statepaginator[0].focusPaginator);
+    let returnnbrpage = <></>;
+    for(let x = 0; x<nbrpage; x++){
+        returnnbrpage = (
+            <>
+                {returnnbrpage}
+                <a onClick={(e)=>{statepaginator[1]({viewPage: x,arrayPaginator:statepaginator[0].arrayPaginator,focusPaginator:statepaginator[0].focusPaginator})}}>{x}</a>
+            </>
+        );
+    }
+    return(
+        <div className='table-tr'>
+            <div className='table-td'>
+                {
+                    returnnbrpage
                 }
-            }
-        }else{ verif = 0;}
-    }
-    if(dataType === "date"){
-        let date1 = new Date(text1);
-        let date2 = new Date(text2);
-        
-        if(!isNaN(date1.getTime()) === true && !isNaN(date2.getTime()) === true ){
-            
-            if(date1.getTime() === date2.getTime()) verif = 0;
-            if(date1.getTime() > date2.getTime()) verif = 1;
-            if(date1.getTime() < date2.getTime()) verif = 2;
-        }else{
-            if(isNaN(date1.getTime()) === true){
-                if(order === "desc" && !isNaN(date2.getTime()) === true) verif = 2;
-                else verif=0;
-
-                if(order === "asc" && !isNaN(date2.getTime()) === true) verif = 1;
-            }else verif = 0;
-        }
-        
-    }
-    return verif;
-    // 0 = / 1 < / 2 >
+            </div>
+            <div className='table-td'>
+                {
+                    statepaginator[0].arrayPaginator.map( e =>{ return (<a onClick={(evt)=>statepaginator[1]({viewPage: statepaginator[0].viewPage,arrayPaginator:statepaginator[0].arrayPaginator,focusPaginator:e}) }>{e}</a>)})
+                }
+            </div>
+        </div>
+    )
 }
-//inverser
 function FilterColumnDesc(obj){
     let defaultState = {...obj.state.listUser};
     let listUser = [...defaultState[0]];
     let field = obj.field;
-    let dataType = obj.dataType;
-    let x=0;
-    while(x < listUser.length-1){
-       if(Filter(listUser[x][field] , listUser[x+1][field],dataType,"desc") === 2){
-            let tampon = listUser[x];
-            listUser[x] = listUser[x+1];
-            listUser[x+1] = tampon;
-            x=0;  
-       }else{
-       x++;
-       }
-    }
-    defaultState[1]([...listUser]);
+    defaultState[1]([...listUser.sort((a,b) => a[field] < b[field])]);
 }
 function FilterColumnAscend(obj){
     let defaultState = {...obj.state.listUser};
     let listUser = [...defaultState[0]];
     let field = obj.field;
-    let dataType = obj.dataType;
-    let x=0;
-    while(x < listUser.length-1){
-       if(Filter(listUser[x][field] , listUser[x+1][field],dataType,"asc") === 1){
-            let tampon = listUser[x+1];
-            listUser[x+1] = listUser[x];
-            listUser[x] = tampon;
-            x=0;
-       }else {
-        x++;
-       }
-    }
-    defaultState[1]([...listUser]);
+    defaultState[1]([...listUser.sort((a,b) => a[field] > b[field])]);
 }
 
