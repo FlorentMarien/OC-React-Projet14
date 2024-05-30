@@ -18,9 +18,9 @@ function Datatable(props) {
             <ColumnCustom field="lastname" ></ColumnCustom>
             <ColumnCustom field="city"></ColumnCustom>
             <ColumnCustom field="street"></ColumnCustom>
-            <ColumnCustom field="dateofbirth" sortable search></ColumnCustom>
+            <ColumnCustom field="dateofbirth" dataType={"date"} sortable search></ColumnCustom>
             <ColumnCustom field="departments"></ColumnCustom>
-            <ColumnCustom field="startdate" sortable></ColumnCustom>
+            <ColumnCustom field="startdate" dataType={"date"} sortable></ColumnCustom>
             <ColumnCustom field="state"></ColumnCustom>
             <ColumnCustom field="zipcode"></ColumnCustom>
          </DatatableCustom>

@@ -1,8 +1,8 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { combineReducers } from 'redux';
-import { listUser } from './assets/data/data';
+import { listUser,list } from './assets/data/data';
 
-const userReducer = (state = listUser,action) => {
+const userReducer = (state = list,action) => {
     if(action.type === "ADD_USER") {
         let array = [...state];
         array.push(action.listuser);

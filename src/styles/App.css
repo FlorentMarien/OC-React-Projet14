@@ -8,9 +8,11 @@ nav + section{
     justify-content: center;
     align-items: center;
 }
-nav + section > div{
+.page{
     width: 90%;
-    min-height: 90vh;
+    height: 90%;
+    margin: 5%;
+    
     background-color: black;
     color: white;
     /*overflow: scroll;*/

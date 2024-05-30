@@ -54,23 +54,22 @@ function Index() {
     let data = {
       firstname: document.getElementById("input-firstname").value,
       lastname: document.getElementById("input-lastname").value,
-      dateofbirth: StateDateOfBirth.toLocaleDateString("fr-FR"),
-      startdate: StateStartDate.toLocaleDateString("fr-FR"),
+      dateofbirth: StateDateOfBirth.toJSON(),
+      startdate: StateStartDate.toJSON(),
       street: document.getElementById("input-street").value,
       city: document.getElementById("input-city").value,
       state: State.label,
       zipcode: document.getElementById("input-zipcode").value,
       departments: Department.label
   };
-  console.log(data);
   return data;
   }
   
   return (
     <>
-    <section>
+    <section >
       <Modale data={ModaleValue}></Modale>
-      <div>
+      <div className='page'>
         <ToastContainer />
         <p>Create Employee</p>
         <form onSubmit={(e)=>{addEmploye(e)}}>

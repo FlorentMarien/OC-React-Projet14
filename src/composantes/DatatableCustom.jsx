@@ -1,31 +1,33 @@
 import './../styles/Input.css';
 import './../styles/DatatableCustom.css';
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 import ArrowUp from './../assets/icon/sort-up-svgrepo-com.svg';
 import ArrowDown from './../assets/icon/sort-down-svgrepo-com.svg';
+import DropdownCustom from './DropdownCustom';
 
 export function ColumnCustom(props) {
     return(
         <td>{ props.name }</td>
     );
 }
+
 function CelCustom(props){
     let view;
     if(props.dataType === "string" ) view = (<div className='table-td'>{props.value}</div>);
-    //if(props.dataType === "date" ) view = (<div className='table-td'>{new Date(props.value).toLocaleDateString("fr-Fr")}</div>);
-    return (
-
-        <div className='table-td'>{ view }</div>
-    )
+    if(props.dataType === "date" ) view = (<div className='table-td'>{new Date(props.value).toLocaleDateString("fr-Fr")}</div>);
+    return ( view )
 }
 function HeaderCustom(props, state){
     
     return (
-        <>
+        <div className='table-header'>
         {
             props.searchGlobal === true &&
             <div className='table-thead'>
-                <input type='text' onChange={(e)=>{state.Search[1](  { ...state.Search[0], ["searchGlobal"]: e.target.value}  )}} placeholder='GlobalSearch ?'/>
+                <input type='text' onChange={(e)=>{ 
+                    state.statepaginator[1]({...state.statepaginator[0],viewPage:0});
+                    state.Search[1]({ ...state.Search[0], ["searchGlobal"]: e.target.value})
+                }} placeholder='GlobalSearch ?'/>
             </div>
         }
         <div className='table-thead'>
@@ -45,14 +47,14 @@ function HeaderCustom(props, state){
                             
                             x.props.search === true &&
                                 <>
-                                <input type="text" onChange={(e)=>{ state.Search[1](  { ...state.Search[0], [x.props.field]: e.target.value}  ) }} placeholder='Search ?'/>
+                                <input type="text" onChange={(e)=>{ state.statepaginator[1]({...state.statepaginator[0],viewPage:0});state.Search[1](  { ...state.Search[0], [x.props.field]: e.target.value}  ) }} placeholder='Search ?'/>
                                 </>
                         }
                     </div> 
                 )})
             }
         </div>
-        </>
+        </div>
     );
 }
 export function DatatableCustom(props) {
@@ -100,21 +102,25 @@ export function DatatableCustom(props) {
     returnlistUser.forEach((e)=>{
         if(e !== undefined) returntampon.push(e);
     })
+    
     returnlistUser = returntampon;
     let iteration = 0;
     let datatable = (
         <>
         <div id={props.id !== undefined && props.id} className='datatable'> 
-            {HeaderCustom(props, {listUser:[listUser,setlistUser],Search:[Search,SetSearch]})}
-            {returnlistUser.map((e)=>{ if((iteration < (StatePaginator.focusPaginator*(StatePaginator.viewPage+1))) && (iteration >= (StatePaginator.focusPaginator*StatePaginator.viewPage))){ 
-                iteration++;
-                return e;
-                } else{ iteration++; }
-            
+            {HeaderCustom(props, {listUser:[listUser,setlistUser],Search:[Search,SetSearch],statepaginator:[StatePaginator,SetStatePaginator]})}
+            <div className='table-data'>
+                {returnlistUser.map((e)=>{ if((iteration < (StatePaginator.focusPaginator*(StatePaginator.viewPage+1))) && (iteration >= (StatePaginator.focusPaginator*StatePaginator.viewPage))){ 
+                    iteration++;
+                    return e;
+                    } else{ iteration++; }
+                
                 })}
-            {FooterCustom(props, [StatePaginator,SetStatePaginator])}
+                {returnlistUser.length === 0 && <p className='msg-nocontent'>Aucun élément ne correspond à votre recherche</p>}
+            </div>
+            {FooterCustom(props, [StatePaginator,SetStatePaginator], returnlistUser.length)}
         </div>
-        {returnlistUser.length === 0 && <p className='msg-nocontent'>Aucun élément ne correspond à votre recherche</p>}
+        
         </>
      );
     return (
@@ -123,27 +129,27 @@ export function DatatableCustom(props) {
         </>
     );
 }
-function FooterCustom(props, statepaginator){
-    let nbrpage = Math.ceil(props.data.length / statepaginator[0].focusPaginator);
-    let returnnbrpage = <></>;
-    for(let x = 0; x<nbrpage; x++){
-        returnnbrpage = (
-            <>
-                {returnnbrpage}
-                <a onClick={(e)=>{statepaginator[1]({viewPage: x,arrayPaginator:statepaginator[0].arrayPaginator,focusPaginator:statepaginator[0].focusPaginator})}}>{x}</a>
-            </>
-        );
+function FooterCustom(props, statepaginator, nbrelementinview){
+    let nbrpage = Math.floor(nbrelementinview / statepaginator[0].focusPaginator);
+    //let returnnbrpage = <></>;
+    let returnnbrpage = [];
+    let returnnbrpagination = [];
+    for(let x = 0; x <= nbrpage; x++){
+        returnnbrpage.push({label:x,value:x});
+    }
+    for(let x = 0; x<statepaginator[0].arrayPaginator.length; x++){
+        returnnbrpagination.push({label:statepaginator[0].arrayPaginator[x],value:statepaginator[0].arrayPaginator[x]});
     }
     return(
-        <div className='table-tr'>
+        <div className='table-footer table-tr'>
             <div className='table-td'>
                 {
-                    returnnbrpage
+                    <DropdownCustom data={{list:returnnbrpage,selectedIndex:statepaginator[0].viewPage}} onChange={(e) => { statepaginator[1]({...statepaginator[0],viewPage: parseInt(e.value)}) }}/>
                 }
             </div>
             <div className='table-td'>
                 {
-                    statepaginator[0].arrayPaginator.map( e =>{ return (<a onClick={(evt)=>statepaginator[1]({viewPage: statepaginator[0].viewPage,arrayPaginator:statepaginator[0].arrayPaginator,focusPaginator:e}) }>{e}</a>)})
+                    <DropdownCustom data={{list:returnnbrpagination,selectedIndex:statepaginator[0].arrayPaginator.indexOf(statepaginator[0].focusPaginator)}} onChange={(e) => { statepaginator[1]({...statepaginator[0],focusPaginator: parseInt(e.value),viewPage:0}) }}/>
                 }
             </div>
         </div>

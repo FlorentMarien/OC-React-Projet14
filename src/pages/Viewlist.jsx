@@ -5,8 +5,8 @@ import flux from './../flux';
 function Viewlist() {
   let filterForm = flux.getState().listuser;
   return (
-    <section>
-      <div>
+    <section >
+      <div className='page'>
         <Datatable id={"datatable"} data={flux.getState().listuser}/>
       </div>
     </section>

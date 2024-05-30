@@ -6,9 +6,9 @@ function DropDownCustom( props ) {
     let [Open,SetOpen] = useState(0);
     let [DropValue,SetDropValue] = useState({label:data.list[data.selectedIndex].label,value:data.list[data.selectedIndex].value,selectedIndex:data.selectedIndex});
     useEffect(() => {
+        //console.log(DropValue);
         SetDropValue({label:data.list[data.selectedIndex].label,value:data.list[data.selectedIndex].value,selectedIndex:data.selectedIndex});
     },[props.onChange])
-
     function Clicklisthandle(e){
         let selectedIndex = e.target.options.selectedIndex;
         if(props.onChange !== undefined) props.onChange({label:e.target.options[selectedIndex].label,value:e.target.value, selectedIndex:selectedIndex});
