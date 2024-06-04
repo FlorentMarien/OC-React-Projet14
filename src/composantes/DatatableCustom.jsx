@@ -1,8 +1,7 @@
 import './../styles/Input.css';
 import './../styles/DatatableCustom.css';
 import { useState,useEffect } from 'react';
-import ArrowUp from './../assets/icon/sort-up-svgrepo-com.svg';
-import ArrowDown from './../assets/icon/sort-down-svgrepo-com.svg';
+import LoopIcon from './../assets/icon/loop-svgrepo-com.svg';
 import DropdownCustom from './DropdownCustom';
 
 export function ColumnCustom(props) {
@@ -10,11 +9,17 @@ export function ColumnCustom(props) {
         <td>{ props.name }</td>
     );
 }
+function arrowActive(e){
+    if(document.getElementsByClassName("active-arrow").length !== 0){
+        document.getElementsByClassName("active-arrow")[0].className=document.getElementsByClassName("active-arrow")[0].className.replace("active-arrow","");
+    }
+    if(!e.target.className.includes("active-arrow")) e.target.className += " active-arrow";
 
+}
 function CelCustom(props){
     let view;
-    if(props.dataType === "string" ) view = (<div className='table-td'>{props.value}</div>);
-    if(props.dataType === "date" ) view = (<div className='table-td'>{new Date(props.value).toLocaleDateString("fr-Fr")}</div>);
+    if(props.dataType === "string" ) view = (<div className='table-td'><p>{props.value}</p></div>);
+    if(props.dataType === "date" ) view = (<div className='table-td'><p>{new Date(props.value).toLocaleDateString("fr-Fr")}</p></div>);
     return ( view )
 }
 function HeaderCustom(props, state){
@@ -24,10 +29,13 @@ function HeaderCustom(props, state){
         {
             props.searchGlobal === true &&
             <div className='table-thead'>
-                <input type='text' onChange={(e)=>{ 
-                    state.statepaginator[1]({...state.statepaginator[0],viewPage:0});
-                    state.Search[1]({ ...state.Search[0], ["searchGlobal"]: e.target.value})
-                }} placeholder='GlobalSearch ?'/>
+                <div className='input-search'>
+                    <img src={LoopIcon} />
+                    <input type='text' onChange={(e)=>{ 
+                        state.statepaginator[1]({...state.statepaginator[0],viewPage:0});
+                        state.Search[1]({ ...state.Search[0], ["searchGlobal"]: e.target.value})
+                    }} placeholder='GlobalSearch ?'/>
+                </div>
             </div>
         }
         <div className='table-thead'>
@@ -35,21 +43,35 @@ function HeaderCustom(props, state){
                 props.children.map( x => {
                 return ( 
                     <div className='table-td'>
-                        <p>{x.props.field}</p>
+                        { 
+                            x.props.search === true &&
+                                <>
+                                <div className='input-search input-search-min'>
+                                <img src={LoopIcon} />
+                                <input type="text" onChange={(e)=>{ state.statepaginator[1]({...state.statepaginator[0],viewPage:0});state.Search[1](  { ...state.Search[0], [x.props.field]: e.target.value}  ) }} placeholder='Search ?'/>
+                                </div>
+                                </>
+                        }
+                    </div> 
+                )})
+            }
+        </div>
+        <div className='table-thead thead-field'>
+            {
+                props.children.map( x => {
+                return ( 
+                    <div className='table-td'>
+                       
+                        <div>
+                        <p className='p-field-category'>{x.props.field}</p>
                         {
                             x.props.sortable === true &&
                             <div>
-                                <img src={ArrowUp} onClick={()=>FilterColumnAscend({field: x.props.field, dataType: x.props.dataType === undefined ? "string" : x.props.dataType, state:state})} name="Filter list ascending"/>
-                                <img src={ArrowDown} onClick={()=>FilterColumnDesc({field: x.props.field, dataType: x.props.dataType === undefined ? "string" : x.props.dataType, state:state,})} name="Filter list descending"/>
+                                <div className='arrow-up' onClick={(e)=>{arrowActive(e);FilterColumnAscend({field: x.props.field, dataType: x.props.dataType === undefined ? "string" : x.props.dataType, state:state})}} name="Filter list ascending"/>
+                                <div className='arrow-down' onClick={(e)=>{arrowActive(e);FilterColumnDesc({field: x.props.field, dataType: x.props.dataType === undefined ? "string" : x.props.dataType, state:state,})}} name="Filter list descending"/>
                             </div>
                         }
-                        {
-                            
-                            x.props.search === true &&
-                                <>
-                                <input type="text" onChange={(e)=>{ state.statepaginator[1]({...state.statepaginator[0],viewPage:0});state.Search[1](  { ...state.Search[0], [x.props.field]: e.target.value}  ) }} placeholder='Search ?'/>
-                                </>
-                        }
+                        </div>
                     </div> 
                 )})
             }
@@ -58,7 +80,29 @@ function HeaderCustom(props, state){
     );
 }
 export function DatatableCustom(props) {
-    let [listUser,setlistUser] = useState(props.data);
+
+    let filterForm = [];
+    let obj;
+    props.children.forEach((column)=>{
+        let field = column.props.field;
+        obj = {
+            ...obj,
+            [field]: column.props['dataType'] === undefined ? 'string' : column.props['dataType'],
+        }
+    })
+
+    let x = 0;
+    props.data.forEach((e)=>{
+        filterForm.push({...e});
+        Object.keys(e).forEach((efield)=>{
+            if(obj[efield] === "date" && isNaN(e[efield])){
+                filterForm[x][efield] = new Date(e[efield]);
+            }
+        });
+        x++;
+    });
+
+    let [listUser,setlistUser] = useState(filterForm);
     let [Search,SetSearch] = useState({});
     let [StatePaginator,SetStatePaginator] = useState({viewPage: 0,arrayPaginator: props.paginator === undefined ? [10] : props.paginator,focusPaginator: props.paginator === undefined ? 10 : props.paginator[0]});
     
@@ -68,19 +112,18 @@ export function DatatableCustom(props) {
             {
                 let incr = 0;
                 Object.keys(dataelement).forEach((e)=>{ 
-                    if(typeof dataelement[e] === 'string') if(dataelement[e].includes(Search["searchGlobal"])) incr +=1 ;
-                    if(typeof dataelement[e] === 'object') {
+                    if(obj[e] === 'string') if(dataelement[e].includes(Search["searchGlobal"])) incr +=1 ;
+                    if(obj[e] === 'date' ) {
                         if(dataelement[e].toLocaleDateString("fr-Fr").includes(Search["searchGlobal"])) incr +=1 ;
                     }
                 });
                 if(incr > 0) elementSearch += 1;
             }
-
             Object.keys(Search).forEach((e)=>{ 
                 if(e !== 'searchGlobal'){
-                    if(typeof dataelement[e] === 'string') if(dataelement[e].includes(Search[e])) elementSearch +=1; ;
-                    if(typeof dataelement[e] === 'object') {
-                        if(dataelement[e].toLocaleDateString("fr-Fr").includes(Search["searchGlobal"])) elementSearch +=1 ;
+                    if(obj[e] === 'string') if(dataelement[e].includes(Search[e])) elementSearch +=1;
+                    if(obj[e] === 'date') {
+                        if(dataelement[e].toLocaleDateString("fr-Fr").includes(Search[e])) elementSearch +=1 ;
                     }
                     
                 }
@@ -102,7 +145,6 @@ export function DatatableCustom(props) {
     returnlistUser.forEach((e)=>{
         if(e !== undefined) returntampon.push(e);
     })
-    
     returnlistUser = returntampon;
     let iteration = 0;
     let datatable = (
@@ -131,7 +173,6 @@ export function DatatableCustom(props) {
 }
 function FooterCustom(props, statepaginator, nbrelementinview){
     let nbrpage = Math.floor(nbrelementinview / statepaginator[0].focusPaginator);
-    //let returnnbrpage = <></>;
     let returnnbrpage = [];
     let returnnbrpagination = [];
     for(let x = 0; x <= nbrpage; x++){
@@ -144,12 +185,29 @@ function FooterCustom(props, statepaginator, nbrelementinview){
         <div className='table-footer table-tr'>
             <div className='table-td'>
                 {
-                    <DropdownCustom data={{list:returnnbrpage,selectedIndex:statepaginator[0].viewPage}} onChange={(e) => { statepaginator[1]({...statepaginator[0],viewPage: parseInt(e.value)}) }}/>
+                    <>
+                    <p>{statepaginator[0].focusPaginator*statepaginator[0].viewPage +1} - {statepaginator[0].focusPaginator*(statepaginator[0].viewPage+1)} of {nbrelementinview}</p>
+                    </>
                 }
             </div>
             <div className='table-td'>
                 {
-                    <DropdownCustom data={{list:returnnbrpagination,selectedIndex:statepaginator[0].arrayPaginator.indexOf(statepaginator[0].focusPaginator)}} onChange={(e) => { statepaginator[1]({...statepaginator[0],focusPaginator: parseInt(e.value),viewPage:0}) }}/>
+                    <>
+                    <div>
+                        <p>Element(s) par page:</p>
+                        <DropdownCustom data={{list:returnnbrpagination,selectedIndex:statepaginator[0].arrayPaginator.indexOf(statepaginator[0].focusPaginator)}} onChange={(e) => { statepaginator[1]({...statepaginator[0],focusPaginator: parseInt(e.value),viewPage:0}) }}/>
+                    </div>
+                    <div>
+                        <div className='table-icon'>
+                            <div className='arrow-left' onClick={(e)=>{ statepaginator[1]({...statepaginator[0],viewPage: (statepaginator[0].viewPage-1) < 0 ? nbrpage : statepaginator[0].viewPage-1}) }}/>
+                        </div>
+                        <p><a className='focus-page'>{statepaginator[0].viewPage+1}</a>/{nbrpage+1}</p>
+                        <div className='table-icon'>
+                            <div className='arrow-right' onClick={(e)=>{ statepaginator[1]({...statepaginator[0],viewPage: (statepaginator[0].viewPage+1) > nbrpage ? 0 : statepaginator[0].viewPage+1}) }}/>
+                        </div>
+                    </div>
+                    
+                    </>
                 }
             </div>
         </div>

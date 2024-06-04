@@ -44,6 +44,7 @@ function Index() {
   function addEmploye(e){
     e.preventDefault();
     let data = getForm();
+    console.log(data)
     dispatch({type:"ADD_USER",listuser:data})
     //notify();
     //confirmAlert(options);

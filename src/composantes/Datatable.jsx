@@ -13,7 +13,7 @@ function Datatable(props) {
     let data = props.data;
     return (
         <>
-         <DatatableCustom id={props.id} data={data} searchGlobal paginator={[5,15,25]}>
+         <DatatableCustom id={props.id} data={data} searchGlobal paginator={[5,15,25,50,100]}>
             <ColumnCustom field="firstname" sortable search></ColumnCustom>
             <ColumnCustom field="lastname" ></ColumnCustom>
             <ColumnCustom field="city"></ColumnCustom>
