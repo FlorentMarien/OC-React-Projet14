@@ -1,0 +1,34 @@
+.profil{
+    height: 64px;
+    width: auto;
+    background-color: rgb(31 41 55 );
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.profil > div{
+    display: flex;
+}
+.profil > div > img, .profil-card{
+    margin: 10px;
+}
+.profil img{
+    width: 30px;
+    height: 30px;
+}
+.profil-card{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.profil-card img{
+    margin-right: 5px;
+    border-radius: 50%;
+}
+.card-job , .card-name{
+    color:rgb(156 163 175);
+    text-align: left;
+}
+.card-name{
+    font-weight: bold;
+}

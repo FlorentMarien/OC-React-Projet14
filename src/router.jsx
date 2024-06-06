@@ -4,16 +4,17 @@ import Index from "./pages/Index";
 import Viewlist from "./pages/Viewlist";
 import ErrorPage from "./pages/ErrorPage";
 import Header from "./composantes/Header";
-export default function Router() {
+import Profil from "./composantes/Profil";
+export default function Router(props) {
   const router = createBrowserRouter([
     {
       path: "/",
-      element: <><Header /><Index /></>,
-      errorElement: <><Header /><ErrorPage /></>
+      element: <><Header state={props.state}/><div><Profil state={props.state}/><Index /></div></>,
+      errorElement: <><Header state={props.state}/><div><Profil state={props.state}/><ErrorPage /></div></>
     },
     {
       path: "/viewlist",
-      element: <><Header /><Viewlist /></>,
+      element: <><Header state={props.state}/><div><Profil state={props.state}/><Viewlist /></div></>,
     }])
 
   return <RouterProvider router={router} />;

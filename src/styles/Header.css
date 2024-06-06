@@ -1,22 +1,56 @@
 nav{
     position: relative;
-    background-color: black;
+    background-color: rgb(31 41 55 );
+    border-right: 1px solid rgb(75 85 99);
     color: white;
-    width: 200px;
+    width: 289px;
     height: 100vh;
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
     justify-content: center;
 }
-nav img{
+nav > img{
     position: absolute;
     top: 10px;
-    left: calc(50% - 50px);
-    height: 100px;
-    width: 100px;
+    left: calc(50% - 75px);
+  height: 150px;
+  width: 150px;
 }
 nav a{
     margin: 20px;
     text-align: center;
+}
+nav div{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+}
+.reduceNavbar{
+    width: 79px;
+}
+.reduceNavbar div{
+    width: 100%;
+    position: absolute;
+}
+.reduceNavbar div img{
+    
+    width: 60%;
+    margin-left: 20%;
+    margin-right: 20%;
+}
+
+.reducenavbar div img{
+    width: 90%;
+    margin: 5%;
+    stroke: white;
+}
+.reduceNavbar > img{
+    left: 0;
+    width: 100%;
+    height: 73.55px;
 }

@@ -1,10 +1,10 @@
 #datatable{
     color:black;
-    background-color: white;
     overflow: hidden;
-    border-radius: 10px;
-    border:1px solid rgba(161, 169, 184,0.75);
-    box-shadow: rgba(161, 169, 184,0.75) 0px 5px 15px;
+    border-radius: 0.375rem;
+    /*border: 1px solid rgb(31 41 55 );
+    box-shadow: rgba(161, 169, 184,0.75) 0px 5px 15px;*/
+    width: 100%;
 }
 .table-header{
     display: flex;
@@ -12,7 +12,7 @@
   justify-content: space-evenly;
 }
 .table-header,.table-footer{
-    background-color: rgba(244,247,251,0.75);
+    background-color: rgb(31 41 55 );
 }
 .table-header{
     border-top-left-radius: 10px;
@@ -25,6 +25,12 @@
 .msg-nocontent{
     width: max-content;
     text-align: center;
+    color: white;
+    width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 td input{
     width: 50px;
@@ -61,6 +67,9 @@ td input{
     min-height: 80%;
     height: 80%;
     overflow: scroll;
+    
+    background-color: rgb(31 41 55 );
+    
 }
 .table-footer{
     min-height: 5%;
@@ -94,8 +103,8 @@ td input{
 .table-footer .table-td div + div img{
     margin: 2.5px;
 }
-.table-data .table-tr:nth-child(2n){
-    background-color: #F4F7FC;
+.table-data .table-tr:nth-child(2n-1){
+    background-color: rgb(17 24 39 );
     
 }
 .table-td{
@@ -107,11 +116,13 @@ td input{
     text-overflow: ellipsis;
     width: 100%;
     white-space: nowrap;
+    color: white;
 }
 .p-field-category{
     line-height: 25px;
     text-transform: uppercase;
     font-weight: bold;
+    
 }
 .table-thead .table-td{
     justify-content: end;
@@ -168,10 +179,12 @@ td input{
     margin: 2px;
 }
 .table-header{
-    border-bottom:1px solid rgba(161, 169, 184,0.75);
+    border-bottom:1px solid rgb(75 85 99);
+    ;
 }
 .table-footer{
-    border-top:1px solid rgba(161, 169, 184,0.75);
+    border-top:1px solid rgb(75 85 99);
+    ;
 }
 .table-td div div select{
     background-color: transparent;

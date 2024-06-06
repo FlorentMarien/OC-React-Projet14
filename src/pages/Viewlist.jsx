@@ -25,6 +25,9 @@ function Viewlist() {
   });*/
   return (
     <section >
+      <div className='titlePage'>
+        <h3>DataTable</h3>
+      </div>
       <div className='page bg-none'>
         <Datatable id={"datatable"} data={filterForm}/>
       </div>

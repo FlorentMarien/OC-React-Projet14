@@ -1,5 +1,6 @@
 main{
     display: flex;
+    background-color: rgb(17 24 39 );
 }
 nav + section{
     width: calc(100% - 200px);
@@ -8,14 +9,30 @@ nav + section{
     justify-content: center;
     align-items: center;
 }
+section{
+    display: flex;
+    flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: calc(100vh - 64px);
+  overflow: scroll;
+  
+}
 .page{
     width: 90%;
     height: 90%;
-    margin: 5%;
-    
-    background-color: black;
     color: white;
-    /*overflow: scroll;*/
+    /*
+    overflow: scroll;
+    
+    display: flex;
+
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;*/
+}
+nav + div{
+    width: 100%;
 }
 a{
     cursor: pointer;

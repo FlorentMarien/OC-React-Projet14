@@ -1,9 +1,11 @@
 .calendrier{
-    background-color: white;
+    background-color: rgb(17 24 39 );
     position: absolute;
     z-index: 10;
     overflow: hidden;
-    border-radius: 5px;
+    border-radius: 0.375rem;
+    border: 1px solid rgb(75 85 99);
+    left: calc(50% - 140.55px);
 }
 .calendrier-container{
     position: relative;
@@ -16,11 +18,15 @@ thead td img{
 }
 .calendrier .calendrier-activedate{
     flex-direction: column;
-    background-color: #3461D6;
+    background-color: green;
     justify-content: center;
+    
+}
+.calendrier-activedate p{
+    color:white;
 }
 thead + thead{
-    background-color: #F4F4F4;
+    background-color: rgb(17 24 39 );
 }
 .calendrier thead td{
     border: solid 1px transparent;
@@ -29,7 +35,7 @@ thead + thead{
 td{
     width: 40px;
     height: 40px;
-    color: black;
+    color: white;
     overflow: hidden;
 }
 td.month{
@@ -37,13 +43,13 @@ td.month{
     height: 50px;
 }
 .calendrier-before-month,.calendrier-after-month{
-    color: #6DB0FF;
+    color: #80B9AD;
 }
 .-weekday{
-    background-color: #F4F4F4;
+    background-color: rgb(27,34,49);
 }
 .date-active{
-    background-color: #3461D6;
+    background-color: #B3E2A7;
 }
 
 .calendrier thead,.calendrier tr{
@@ -57,10 +63,10 @@ td.month{
     align-items: center;
 }
 .calendrier-semaine{
-    background-color: white;
+    background-color: rgb(17 24 39 );
 }
 .calendrier-semaine td p{
-    color: #74A0FF;
+    color: green;
 }
 .calendrier td{
     display: flex;
@@ -69,11 +75,11 @@ td.month{
 }
 td div select{
     background-color: transparent;
-    border: 1px solid #3461D6;
+    border: 0px solid #80B9AD;
     border-radius: 5px;
     font-size: 15px;
     margin: 5px;
-    color: #3461D6;
+    color: white;
 }
 .calendrier-inputMonthYear{
     width: auto;
