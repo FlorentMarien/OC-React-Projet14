@@ -37,3 +37,18 @@ input[type='submit']{
 .container-input > div > div > input,.container-input > div > input,.container-input > div > div > select{
     padding-left: 34px;
 }
+.container-button button{
+    width: 20px;
+    height: 20px;
+}
+.container-button img{
+    width: 13px;
+    height: 13px;
+    
+}
+.container-button .button-add{
+    padding: 0;
+    display: flex;
+  justify-content: center;
+  align-items: center;
+}

@@ -1,7 +1,7 @@
 import React from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Index from "./pages/Index";
-import Viewlist from "./pages/Viewlist";
+import AddElement from "./pages/addElement";
 import ErrorPage from "./pages/ErrorPage";
 import Header from "./composantes/Header";
 import Profil from "./composantes/Profil";
@@ -13,8 +13,8 @@ export default function Router(props) {
       errorElement: <><Header state={props.state}/><div><Profil state={props.state}/><ErrorPage /></div></>
     },
     {
-      path: "/viewlist",
-      element: <><Header state={props.state}/><div><Profil state={props.state}/><Viewlist /></div></>,
+      path: "/addElement",
+      element: <><Header state={props.state}/><div><Profil state={props.state}/><AddElement /></div></>,
     }])
 
   return <RouterProvider router={router} />;

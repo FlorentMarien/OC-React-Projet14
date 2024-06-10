@@ -187,6 +187,7 @@ function FooterCustom(props, statepaginator, nbrelementinview){
                 {
                     <>
                     <p>{statepaginator[0].focusPaginator*statepaginator[0].viewPage +1} - {statepaginator[0].focusPaginator*(statepaginator[0].viewPage+1)} of {nbrelementinview}</p>
+                    {props.addElement !== undefined && props.addElement }
                     </>
                 }
             </div>
@@ -196,6 +197,7 @@ function FooterCustom(props, statepaginator, nbrelementinview){
                     <div>
                         <p>Element(s) par page:</p>
                         <DropdownCustom data={{list:returnnbrpagination,selectedIndex:statepaginator[0].arrayPaginator.indexOf(statepaginator[0].focusPaginator)}} onChange={(e) => { statepaginator[1]({...statepaginator[0],focusPaginator: parseInt(e.value),viewPage:0}) }}/>
+                        
                     </div>
                     <div>
                         <div className='table-icon'>

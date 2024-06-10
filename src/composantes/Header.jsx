@@ -18,15 +18,15 @@ function Header(props) {
                     {
                     openNavbar[0] === 0 &&
                     <>
-                        <a onClick={(e)=>{navigate('/')}} >Ajout Employé</a>
-                        <a onClick={(e)=>{navigate('/viewlist')}}>Liste Employés</a>
+                        <a onClick={(e)=>{navigate('/')}} >Index</a>
+                        {/*<a onClick={(e)=>{navigate('/addElement')}}>Liste Employés</a>*/}
                     </>
                     }
                     {
                     openNavbar[0] === 1 &&
                     <>
-                        <img src={iconIndex} onClick={(e)=>{navigate('/')}}/>
-                        <img src={iconViewlist} onClick={(e)=>{navigate('/viewlist')}}/>
+                        <img src={iconViewlist} onClick={(e)=>{navigate('/')}}/>
+                        {/*<img src={iconViewlist} onClick={(e)=>{navigate('/addElement')}}/>*/}
                     </>
                     }
                 </div>
