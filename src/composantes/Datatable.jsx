@@ -8,14 +8,15 @@ import iconAdd from "./../assets/icon/add-circle-svgrepo-com.svg";
 import { departments } from '../assets/data/data';
 
 import { useNavigate } from "react-router-dom";
-import {DatatableCustom, ColumnCustom} from './DatatableCustom';
+//import {DatatableCustom, ColumnCustom} from './DatatableCustom';
+import {DatatableCustom,ColumnCustom} from 'simple-datatable-lib/dist/components/DatatableCustom';
+
 
 function Datatable(props) {
     const navigate = useNavigate();
     const [Search,setSearch] = useState('');
 
     let buttonAdd = (<div className='container-button'>
-            
             <button className="button-add" onClick={(e)=>{ navigate("/addElement") }}>
                 <img src={iconAdd} />
             </button>
@@ -24,14 +25,14 @@ function Datatable(props) {
     let data = props.data
     return (
         <>
-         <DatatableCustom id={props.id} data={data} searchGlobal paginator={[5,15,25,50,100]} addElement={buttonAdd}>
+         <DatatableCustom id={props.id} data={data} searchGlobal paginator={[5,15,25,50,100]} addElement={buttonAdd} >
             <ColumnCustom field="firstname" sortable search></ColumnCustom>
             <ColumnCustom field="lastname" ></ColumnCustom>
             <ColumnCustom field="city"></ColumnCustom>
             <ColumnCustom field="street"></ColumnCustom>
-            <ColumnCustom field="dateofbirth" dataType={"date"} sortable search></ColumnCustom>
+            <ColumnCustom field="dateofbirth" dataType={"date"} formatdateType="en-US" sortable search></ColumnCustom>
             <ColumnCustom field="departments"></ColumnCustom>
-            <ColumnCustom field="startdate" dataType={"date"} sortable></ColumnCustom>
+            <ColumnCustom field="startdate" dataType={"date"} formatdateType="fr-FR" sortable></ColumnCustom>
             <ColumnCustom field="state"></ColumnCustom>
             <ColumnCustom field="zipcode"></ColumnCustom>
          </DatatableCustom>
