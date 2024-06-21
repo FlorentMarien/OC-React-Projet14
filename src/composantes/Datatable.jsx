@@ -19,6 +19,7 @@ function Datatable(props) {
     let buttonAdd = (<div className='container-button'>
             <button className="button-add" onClick={(e)=>{ navigate("/addElement") }}>
                 <img src={iconAdd} />
+                <p>Ajouter</p>
             </button>
         </div>
     );

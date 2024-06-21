@@ -37,18 +37,41 @@ input[type='submit']{
 .container-input > div > div > input,.container-input > div > input,.container-input > div > div > select{
     padding-left: 34px;
 }
-.container-button button{
-    width: 20px;
-    height: 20px;
+
+.container-button .button-add{
+    display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container-button{
+    position: relative;
+    cursor: pointer;
 }
 .container-button img{
-    width: 13px;
-    height: 13px;
-    
+    position: absolute;
+    left: 2.5px;
+    width: 20px;
+    height: 20px;
+    top: 5px;
 }
-.container-button .button-add{
-    padding: 0;
+.button-add{
+    cursor: pointer;
     display: flex;
     justify-content: center;
-    align-items: center;
+    text-align: center;
+    min-width: 50px;
+    height: 30px;
+    padding: 5px;
+    padding-left: 25px;
+    
+    background-color: transparent;
+    border:solid 1px #A1A9B8;
+    border-radius: 5px;
+    
+
+}
+.button-add p{
+    margin: 0;
+    color:#A1A9B8;
 }
