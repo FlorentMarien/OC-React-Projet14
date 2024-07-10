@@ -46,13 +46,13 @@ function Index() {
   function addEmploye(e){
     e.preventDefault();
     let data = getForm();
-    dispatch({type:"ADD_USER",listuser:data})
-    //notify();
-    //confirmAlert(options);
-    setModaleValue({...ModaleValue,open:1,setstatemodale:setModaleValue});
+    dispatch({type:"ADD_USER",listuser:data});
+    confirmAlert(options);
+    //setModaleValue({...ModaleValue,open:1,setstatemodale:setModaleValue});
   }
 
   function getForm(){
+
     let data = {
       firstname: document.getElementById("input-firstname").value,
       lastname: document.getElementById("input-lastname").value,
@@ -63,7 +63,8 @@ function Index() {
       state: State.label,
       zipcode: document.getElementById("input-zipcode").value,
       departments: Department.label
-  };
+  };console.log(data)
+
   return data;
   }
   

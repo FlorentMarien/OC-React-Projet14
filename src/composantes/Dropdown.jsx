@@ -9,6 +9,7 @@ import icon4 from './../assets/icon/gps-svgrepo-com.svg';
 import icon5 from './../assets/icon/calendar-date-svgrepo-com.svg';
 import icon6 from './../assets/icon/country-flag-svgrepo-com.svg';
 function DropDown(props) {
+
     let data = props.data.data;
     let iconArray = [icon1,icon2,icon3,icon4,icon5,icon6];
     let indexIcon = props.data.iconType === undefined ? 0 : props.data.iconType;
@@ -21,12 +22,8 @@ function DropDown(props) {
             <label>{props.data.label}</label>
             <div>
             <img src={iconArray[indexIcon]} />
-            {
-                /*
-                     <Dropdown className={"list-dropdown"} options={list} placeholder={list[0].value} onChange={(element) => props.data.state({...element,selectedIndex:0})}/>
-                */
-            }
-           <DropdownCustom data={{list:list,selectedIndex:data.selectedIndex}} onChange={(e) => {props.data.state(e)}}/>
+            <Dropdown className={"list-dropdown"} options={list} placeholder={list[0].value} onChange={(element) => {props.data.state({...element[0],selectedIndex:0})}}/>
+            {/*<DropdownCustom data={{list:list,selectedIndex:data.selectedIndex}} onChange={(e) => {props.data.state(e)}}/>*/}
            </div>
         </div>
     );

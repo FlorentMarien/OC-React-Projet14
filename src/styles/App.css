@@ -22,14 +22,6 @@ section{
     width: 90%;
     height: 90%;
     color: white;
-    /*
-    overflow: scroll;
-    
-    display: flex;
-
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;*/
 }
 nav + div{
     width: 100%;
@@ -40,4 +32,27 @@ a{
 }
 p{
     margin: 0;
+}
+/* Compo base */
+.react-datepicker-wrapper{
+    width: 100%;
+}
+.react-datepicker-wrapper > div > input{
+    padding-left: 34px;
+}
+.list-dropdown{
+    background-color: transparent !important;
+    border: 1px solid rgb(75 85 99) !important;
+    padding-left: 34px;
+    color: white;
+}
+.list-dropdown > div{
+    padding-left: 0px;
+}
+.list-dropdown > div > span{
+    color: white;  
+}
+.react-dropdown-item-selected{
+    background-color: green !important;
+    color: #fff;
 }

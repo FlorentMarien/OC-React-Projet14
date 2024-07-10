@@ -4,24 +4,6 @@ import './../styles/Viewlist.css';
 import flux from './../flux';
 function Viewlist() {
   let filterForm = flux.getState().listuser;
-  /*
-  let obj;
-    
-  props.children.forEach((column)=>{
-      let field = column.props.field;
-      obj = {
-          ...obj,
-          [field]: column.props['dataType'] === undefined ? 'string' : column.props['dataType'],
-      }
-  })
-    
-  filterForm.forEach((e)=>{
-      Object.keys(e).forEach((efield)=>{
-          if(obj[efield] === "date"){
-              e[efield] = new Date(e[efield]);
-          }
-      });
-  });*/
   return (
     <section >
       <div className='titlePage'>
