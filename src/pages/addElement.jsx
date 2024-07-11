@@ -7,7 +7,7 @@ import DropDown from "../composantes/Dropdown";
 import {states,departments} from "../assets/data/data";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { confirmAlert } from 'react-confirm-alert'; // Import
+import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
@@ -28,8 +28,7 @@ function Index() {
     message: "L'utilisateur a été ajouté",
     buttons: [
       {
-        label: 'Close',
-        onClick: () => alert('Close')
+        label: 'Close'
       }
     ],
     closeOnEscape: true,
@@ -81,8 +80,9 @@ function Index() {
           <div>
             <InputText data={{label: 'Firstname',name:'input-firstname',iconType:0}} />
             <InputText data={{label: 'Lastname',name:'input-lastname',iconType:0}} />
-            <InputDate data={{label: 'Date of Birth',name:'input-datebirth',iconType:4}} state={[StateDateOfBirth,SetStateDateOfBirth]} rangeYear={[1940,new Date().getFullYear()]} formatCalendrier={"en-US"}/>
-            <InputDate data={{label: 'Start Date',name:'input-startdate',iconType:4}} state={[StateStartDate,SetStateStartDate]}  rangeYear={[2000,new Date().getFullYear()+5]} rangeWeekday={[6,0]} formatCalendrier={"fr-FR"}/>
+            <InputDate data={{label: 'Date of Birth',name:'input-datebirth',iconType:4}} state={[StateDateOfBirth,SetStateDateOfBirth]} rangeYear={[1940,new Date().getFullYear()]} rangeWeekday={[]} formatCalendrier={"en-US"} formatWeek={1}/>
+            
+            <InputDate data={{label: 'Start Date',name:'input-startdate',iconType:4}} state={[StateStartDate,SetStateStartDate]}  rangeYear={[2000,new Date().getFullYear()+5]} rangeWeekday={[0]} formatCalendrier={"fr-FR"} formatWeek={1}   />
           
             <InputText data={{label: 'Street',name:'input-street',iconType:3}} />
             <InputText data={{label: 'City',name:'input-city',iconType:1}} />
