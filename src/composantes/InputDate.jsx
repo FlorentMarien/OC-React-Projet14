@@ -17,7 +17,7 @@ function InputDate(props) {
         <div className='container-input'>
             <label>{data.label}</label>
             <div>
-                <img src={iconArray[indexIcon]} />
+                <img src={iconArray[indexIcon]} alt="input icon" />
                     {/*<DatePicker id={data.name} name={data.name} selected={props.state[0]} onChange={(date) => props.state[1](date)} />*/}
                     <CalendrierCustom id={data.name} selected={props.state[0]} onChange={(date) => { props.state[1](date);}} rangeYear={props.rangeYear} rangeWeekday={props.rangeWeekday} formatCalendrier={props.formatCalendrier} formatWeek={props.formatWeek}/>
             </div>

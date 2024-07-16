@@ -11,14 +11,14 @@ function Profil(props) {
     return (
         <div className='profil'>
             <div>
-                <img src={openNavbar[0] === 0 ? Burger : BurgerClose} onClick={(e) => { openNavbar[0] === 0 ? openNavbar[1](1) : openNavbar[1](0)}} />
-                <img src={Loop} />
+                <img src={openNavbar[0] === 0 ? Burger : BurgerClose} alt="Open / close navbar" onClick={(e) => { openNavbar[0] === 0 ? openNavbar[1](1) : openNavbar[1](0)}} />
+                <img src={Loop} alt="icon profil search" />
             </div>
             <div>
-                <img src={Notify} />
-                <img src={Roue} />
+                <img src={Notify} alt="icon notification"/>
+                <img src={Roue} alt="icon parameter"/>
                 <div className='profil-card'>
-                    <img src={iconPdp} />
+                    <img src={iconPdp} alt="icon picture of profil"/>
                     <div>
                         <p className='card-job'>Admin</p>
                         <p className='card-name'>Marien Florent</p>

@@ -10,7 +10,7 @@ function Header(props) {
     let openNavbar = props.state;
     const navigate = useNavigate();
     return (
-        <nav className={openNavbar[0] === 1 && 'reduceNavbar'}>
+        <nav className={openNavbar[0] === 1 ? 'reduceNavbar' : ''}>
             
                 <>
                 <img src={iconwealth} alt="icon wealth health"/>
@@ -25,7 +25,7 @@ function Header(props) {
                     {
                     openNavbar[0] === 1 &&
                     <>
-                        <img src={iconViewlist} onClick={(e)=>{navigate('/')}}/>
+                        <img src={iconViewlist} alt="icon datatable" onClick={(e)=>{navigate('/')}}/>
                         {/*<img src={iconViewlist} onClick={(e)=>{navigate('/addElement')}}/>*/}
                     </>
                     }

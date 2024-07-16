@@ -2,6 +2,9 @@ main{
     display: flex;
     background-color: rgb(17 24 39 );
 }
+body{
+    min-width: 400px;
+}
 nav + section{
     width: calc(100% - 200px);
     height: 100vh;
@@ -22,9 +25,6 @@ section{
     width: 90%;
     height: 90%;
     color: white;
-}
-nav + div{
-    width: 100%;
 }
 a{
     cursor: pointer;
